@@ -29,6 +29,8 @@ ABatteryMan::ABatteryMan()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+	bIsPlayerDead = false;
+
 }
 
 // Called when the game starts or when spawned
@@ -50,5 +52,19 @@ void ABatteryMan::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+
 }
 
+
+void ABatteryMan::MoveForward(float Axis)
+{
+
+}
+
+
+void ABatteryMan::MoveRight(float Axis)
+{
+
+}
