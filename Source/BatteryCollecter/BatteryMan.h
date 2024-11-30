@@ -33,7 +33,7 @@ public:
 	void MoveRight(float Axis);
 	bool bIsPlayerDead;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly);
 		float Power;
 
 	UPROPERTY(EditAnywhere);
@@ -41,6 +41,10 @@ public:
 
 	UFUNCTION()
 		void OnBeginOverlap(class UPrimitiveComponent* Hitcomp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UPROPERTY(EditAnywhere, Category = Widget);
+		TSubclassOf<UUserWidget> Player_UI_Class;
+	UUserWidget* Player_UI;
 
 protected:
 	// Called when the game starts or when spawned

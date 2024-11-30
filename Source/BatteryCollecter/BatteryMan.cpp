@@ -30,6 +30,7 @@ ABatteryMan::ABatteryMan()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	bIsPlayerDead = false;
+	Power = 100.0f;
 
 }
 
@@ -39,6 +40,13 @@ void ABatteryMan::BeginPlay()
 	Super::BeginPlay();
 
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABatteryMan::OnBeginOverlap);
+
+	if (Player_UI_Class != nullptr)
+	{
+		Player_UI = CreateWidget(GetWorld(),Player_UI_Class);
+		Player_UI->AddToViewport();
+		
+	}
 	
 }
 
@@ -46,6 +54,8 @@ void ABatteryMan::BeginPlay()
 void ABatteryMan::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	Power-=DeltaTime*PowerTreshold;
 
 }
 
@@ -96,6 +106,15 @@ void ABatteryMan::OnBeginOverlap(class UPrimitiveComponent* Hitcomp, AActor* Oth
 {
 	if (OtherActor->ActorHasTag("Recharge"))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Recharged");
+		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Recharged");
+
+		Power+=10.0f;
+		
+		if (Power>100)
+		{
+			Power=100;
+		}
+
+		OtherActor->Destroy();
 	}
 }
