@@ -37,6 +37,8 @@ ABatteryMan::ABatteryMan()
 void ABatteryMan::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABatteryMan::OnBeginOverlap);
 	
 }
 
@@ -86,5 +88,14 @@ void ABatteryMan::MoveRight(float Axis)
 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, Axis);
+	}
+}
+
+void ABatteryMan::OnBeginOverlap(class UPrimitiveComponent* Hitcomp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
+	bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->ActorHasTag("Recharge"))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Recharged");
 	}
 }

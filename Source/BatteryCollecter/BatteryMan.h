@@ -33,6 +33,15 @@ public:
 	void MoveRight(float Axis);
 	bool bIsPlayerDead;
 
+	UPROPERTY(VisibleAnywhere)
+		float Power;
+
+	UPROPERTY(EditAnywhere);
+		float PowerTreshold;
+
+	UFUNCTION()
+		void OnBeginOverlap(class UPrimitiveComponent* Hitcomp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
