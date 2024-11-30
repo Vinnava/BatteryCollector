@@ -46,6 +46,9 @@ public:
 		TSubclassOf<UUserWidget> Player_UI_Class;
 	UUserWidget* Player_UI;
 
+	void RestartGame();
+
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

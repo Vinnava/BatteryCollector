@@ -2,6 +2,9 @@
 
 
 #include "BatteryMan.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABatteryMan::ABatteryMan()
@@ -34,6 +37,7 @@ ABatteryMan::ABatteryMan()
 
 }
 
+
 // Called when the game starts or when spawned
 void ABatteryMan::BeginPlay()
 {
@@ -45,7 +49,6 @@ void ABatteryMan::BeginPlay()
 	{
 		Player_UI = CreateWidget(GetWorld(),Player_UI_Class);
 		Player_UI->AddToViewport();
-		
 	}
 	
 }
@@ -57,7 +60,19 @@ void ABatteryMan::Tick(float DeltaTime)
 
 	Power-=DeltaTime*PowerTreshold;
 
+	if (Power <= 0.0f)
+	{
+		if (!bIsPlayerDead)
+		{
+			bIsPlayerDead = true;
+			GetMesh()->SetSimulatePhysics(true);
+			FTimerHandle UnusedTimerHandle;
+			GetWorldTimerManager().SetTimer(UnusedTimerHandle, this, &ABatteryMan::RestartGame, 3.0f, false);
+		}
+	}
+	
 }
+
 
 // Called to bind functionality to input
 void ABatteryMan::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -114,7 +129,11 @@ void ABatteryMan::OnBeginOverlap(class UPrimitiveComponent* Hitcomp, AActor* Oth
 		{
 			Power=100;
 		}
-
 		OtherActor->Destroy();
 	}
+}
+
+void ABatteryMan::RestartGame()
+{
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()),false);
 }
