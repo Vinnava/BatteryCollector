@@ -30,16 +30,3 @@ void ABatteryCollecterGameMode::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	
 }
-
-
-void ABatteryCollecterGameMode::SpawnPlayerRechage()
-{
-	float RandX = FMath::RandRange(Spawn_X_Min, Spawn_X_Max);
-	float RandY = FMath::RandRange(Spawn_Y_Min, Spawn_Y_Max);
-
-	FVector SpawnPosition(RandX, RandY,Spawn_Y_Min);
-	FRotator SpawnRotation(0.0f, 0.0f, 0.0f);
-
-	GetWorld()->SpawnActor(PlayerRechage, &SpawnPosition, &SpawnRotation);
-	
-}
